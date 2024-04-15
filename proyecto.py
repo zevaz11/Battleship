@@ -1,6 +1,16 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 
+def crearPartida(partida:tk.Entry,jugador1:tk.Entry, jugador2:tk.Entry, dimensiones:tk.Entry):
+    resultado = [] 
+    resultado.append(partida.get())
+    resultado.append(jugador1.get())
+    resultado.append(jugador2.get())
+    resultado.append(dimensiones.get())
+
+    partida = open(f"{resultado[0]}.txt", "w")
+    print(resultado)
+
 def nuevaPartida():
     """Abre una ventana llamada nueva partida
     """
@@ -34,7 +44,7 @@ def nuevaPartida():
     dimensiones.place(relx=0.385, rely=0.65)
 
     #Botón para ingresar los datos escritos
-    registrarJugador = tk.Button(partidaNueva, text="Empezar partida")
+    registrarJugador = tk.Button(partidaNueva, text="Empezar partida", command=lambda:(crearPartida(nombrePartida, jugador1, jugador2, dimensiones)))
     registrarJugador.place(relx=0.5, rely=0.82, anchor = "center", height=50, width=200)
 
     partidaNueva.mainloop()
