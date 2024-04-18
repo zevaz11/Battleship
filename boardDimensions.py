@@ -39,7 +39,7 @@ def dimensionsEntries():
     intY = entryY.get()
     if intX == "" or intY == "": #Revisa si alguno de los campos está vacio
       messagebox.showerror("Error", "Uno de los campos está vacio.")
-
+    
     else:
       global valueX
       global valueY
@@ -60,6 +60,7 @@ def dimensionsEntries():
   ##Ventana para el ingreso de los datos##
   inputWindow = Tk()
   inputWindow.title("Board Dimensions")
+  inputWindow.state("zoomed")
 
   #Entry para las columnas
   checked = inputWindow.register(checkEntry)
@@ -74,9 +75,7 @@ def dimensionsEntries():
   #Boton para comprobar los valores.
   continueButton = Button(inputWindow, text="Continuar", command=checkValues )
   continueButton.pack(padx=5,pady=5)
-
   inputWindow.mainloop()
-
 dimensionsEntries()
 boardColumns()
 boardRows()
