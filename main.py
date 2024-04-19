@@ -145,7 +145,51 @@ def selectShip3(event):
   shipType = 3
 
 # Colocar las naves //aun no se como funciona esta cosa
-def action(x,y):
+def actionPlayer1(x,y):
+  """La función actionPlayer1 recibe la posición donde se van a colocar las naves del primer jugador y devuelve una imagen para dichas naves
+
+  Args:
+      x (_type_): _description_
+      y (_type_): _description_
+  """
+  global buttonsMatrix
+  global shipType
+  print (f"x={x},y={y}")
+  if shipType == 1: #destructor
+    if rotate == 0:
+      buttonsMatrix[y][x].configure(image=destructorRight)
+    elif rotate == 1:
+      buttonsMatrix[y][x].configure(image=destructorUp)
+    elif rotate == 2:
+      buttonsMatrix[y][x].configure(image=destructorLeft)
+    elif rotate == 3:
+      buttonsMatrix[y][x].configure(image=destructorDown)
+  elif shipType == 2: #crucero
+    if rotate == 0:
+      buttonsMatrix[y][x].configure(image=cruceroRight)
+    elif rotate == 1:
+      buttonsMatrix[y][x].configure(image=cruceroUp)
+    elif rotate == 2:
+      buttonsMatrix[y][x].configure(image=cruceroLeft)
+    elif rotate == 3:
+      buttonsMatrix[y][x].configure(image=cruceroDown)
+  elif shipType == 3: #acorazado
+    if rotate == 0:
+      buttonsMatrix[y][x].configure(image=acorazadoRight)
+    elif rotate == 1:
+      buttonsMatrix[y][x].configure(image=acorazadoUp)
+    elif rotate == 2:
+      buttonsMatrix[y][x].configure(image=acorazadoLeft)
+    elif rotate == 3:
+      buttonsMatrix[y][x].configure(image=acorazadoDown)
+  
+def actionPlayer2(x,y):
+  """La función actionPlayer2, recibe la posición donde se van a colocar las naves del segundo jugador y devuelve una imagen para dichas naves
+
+  Args:
+      x (_type_): _description_
+      y (_type_): _description_
+  """
   global buttonsMatrix
   global shipType
   print (f"x={x},y={y}")
@@ -177,27 +221,54 @@ def action(x,y):
     elif rotate == 3:
       buttonsMatrix[y][x].configure(image=acorazadoDown)
  
-def board (x:int,y:int)->Tk:
-  global buttonsMatrix 
-  game = Tk()
-  game.title("Piratas de Golfito")
-  game.state("zoomed")
-  resolucion=f"{x*50}x{y*50}+0+0"
+def board(x: int, y: int) -> Tk:
+    global buttonsMatrix 
+    game = Tk()
+    game.title("Piratas de Golfito")
+    game.state("zoomed")
+    windowWidth = x * 50
+    windowHeight = y * 50
+    game.geometry(f"{windowWidth}x{windowHeight}+0+0")
 
-  game.geometry(resolucion)
+    # Calcular el tamaño de los botones en función del tamaño de la ventana y la cantidad de botones
+    buttonWidth = windowWidth // x
+    buttonHeight = windowHeight // y
 
-  buttonsMatrix=[[Button(game, command=lambda x=c,y=f:action(x,y)) for c in range(x)] for f in range(y)]
-  posx=0
-  posy=0
-  for buttonsRow in buttonsMatrix:
-    posx=0
-    for btn in buttonsRow:
-      btn.place(x=posx,y=posy,height=50, width=50)
-      btn.configure(bg = "#47A9CC")
-      posx+=50
-    posy+=50
-  return game
+    """# Calcular el ancho de cada mitad del tablero y el margen
+    halfWidth = (x // 2) * 50
+    margin = 50  # margen entre los dos grupos de botones"""
 
+    # Matrices de botones
+    buttonsMatrixPlayer1 = [[Button(game, command=lambda x=c, y=f: actionPlayer1(x, y)) for c in range(x // 2)] for f in range(y)]
+    buttonsMatrixPlayer2 = [[Button(game, command=lambda x=c, y=f: actionPlayer2(x, y)) for c in range(x // 2)] for f in range(y)]
+
+    # Calcular el centro de cada mitad de la ventana
+    centerX1 = 2.5 * windowWidth // 4
+    centerX2 = 5 * windowWidth // 4
+
+    # Calcular el inicio horizontal para que los botones estén centrados
+    startX1 = centerX1 - (buttonWidth * (x // 4))
+    startX2 = centerX2 - (buttonWidth * (x // 4))
+
+    posy = 500
+    # Colocar y configurar botones para la matríz del jugador 1
+    for buttonsRow in buttonsMatrixPlayer1:
+        posx = startX1
+        for btn in buttonsRow:
+            btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth) #//falta acomodar las matrices en función de la cantidad de botones
+            btn.configure(bg="#47A9CC")
+            posx += buttonWidth
+        posy += buttonHeight
+    posy = 500
+    # Colocar y configurar botones para la matríz del jugador 2
+    for buttonsRow in buttonsMatrixPlayer2:
+        posx = startX2
+        for btn in buttonsRow:
+            btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth)
+            btn.configure(bg="#47A9CC")
+            posx += buttonWidth
+        posy += buttonHeight
+    return game
 game = board(boardColumns(),boardRows())
 
 ##KeyBinds##
