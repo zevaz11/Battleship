@@ -3,9 +3,48 @@ from keyboard import *
 from boardDimensions import * #llamada al archivo boardDimensions
 from PIL import ImageTk, Image
 
-buttonsMatrix=[]
+buttonsMatrixPlayer1=[]
+buttonsMatrixPlayer2=[]
+shipCount = []
 rotate = 0
+##Diccionarios con la información de los barcos##
+shipsPlayer1 = {
+  #Destructores
+  "ship1" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship2" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship3" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship4" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship5" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship6" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  #Cruceros
+  "ship7" : {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  "ship8" : {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  "ship9" : {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  "ship10": {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  #Acorazados
+  "ship11": {"visibility": True, "movibility": True, "alive": True, "type": "Acorazado", "direction": "Right", "position":[[],[],[]]},
+  "ship12": {"visibility": True, "movibility": True, "alive": True, "type": "Acorazado", "direction": "Right", "position":[[],[],[]]}
+}
+shipsPlayer2 = {
+  #Destructores
+  "ship1" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship2" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship3" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship4" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship5" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  "ship6" : {"visibility": True, "movibility": True, "alive": True, "type": "Destructor", "direction": "Right", "position":[]},
+  #Cruceros
+  "ship7" : {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  "ship8" : {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  "ship9" : {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  "ship10": {"visibility": True, "movibility": True, "alive": True, "type": "Crucero", "direction": "Right", "position":[[],[]]},
+  #Acorazados
+  "ship11": {"visibility": True, "movibility": True, "alive": True, "type": "Acorazado", "direction": "Right", "position":[[],[],[]]},
+  "ship12": {"visibility": True, "movibility": True, "alive": True, "type": "Acorazado", "direction": "Right", "position":[[],[],[]]}
+}
+
 ##Variables de los barcos##
+shipType = 1 #maneja el tipo de nave
 #acorazado
 destructorRight = Image.open("b1.png")
 destructorUp = Image.open("b1.png")
@@ -14,8 +53,6 @@ destructorLeft = Image.open("b1.png")
 destructorLeft = destructorLeft.rotate(180)
 destructorDown = Image.open("b1.png")
 destructorDown = destructorDown.rotate(270)
-
-shipType = 1
 
 #crucero
 cruceroRight = Image.open("b22.png")
@@ -82,6 +119,7 @@ def selectShip1(event):
   elif rotate == 1:
     destructorUp = destructorUp.resize((50,50))
     destructorUp = ImageTk.PhotoImage(destructorUp)
+    shipsPlayer1
   elif rotate == 2:
     destructorLeft = destructorLeft.resize((50,50))
     destructorLeft = ImageTk.PhotoImage(destructorLeft)
@@ -152,36 +190,45 @@ def actionPlayer1(x,y):
       x (_type_): _description_
       y (_type_): _description_
   """
-  global buttonsMatrix
+  global buttonsMatrixPlayer1
   global shipType
+  global shipCount
   print (f"x={x},y={y}")
   if shipType == 1: #destructor
     if rotate == 0:
-      buttonsMatrix[y][x].configure(image=destructorRight)
+      buttonsMatrixPlayer1[y][x].configure(image=destructorRight)
     elif rotate == 1:
-      buttonsMatrix[y][x].configure(image=destructorUp)
+      buttonsMatrixPlayer1[y][x].configure(image=destructorUp)
     elif rotate == 2:
-      buttonsMatrix[y][x].configure(image=destructorLeft)
+      buttonsMatrixPlayer1[y][x].configure(image=destructorLeft)
     elif rotate == 3:
-      buttonsMatrix[y][x].configure(image=destructorDown)
+      buttonsMatrixPlayer1[y][x].configure(image=destructorDown)
   elif shipType == 2: #crucero
     if rotate == 0:
-      buttonsMatrix[y][x].configure(image=cruceroRight)
+      buttonsMatrixPlayer1[y][x].configure(image=cruceroRight)
     elif rotate == 1:
-      buttonsMatrix[y][x].configure(image=cruceroUp)
+      buttonsMatrixPlayer1[y][x].configure(image=cruceroUp)
     elif rotate == 2:
-      buttonsMatrix[y][x].configure(image=cruceroLeft)
+      buttonsMatrixPlayer1[y][x].configure(image=cruceroLeft)
     elif rotate == 3:
-      buttonsMatrix[y][x].configure(image=cruceroDown)
+      buttonsMatrixPlayer1[y][x].configure(image=cruceroDown)
   elif shipType == 3: #acorazado
     if rotate == 0:
-      buttonsMatrix[y][x].configure(image=acorazadoRight)
+      buttonsMatrixPlayer1[y][x].configure(image=acorazadoRight)
     elif rotate == 1:
-      buttonsMatrix[y][x].configure(image=acorazadoUp)
+      buttonsMatrixPlayer1[y][x].configure(image=acorazadoUp)
     elif rotate == 2:
-      buttonsMatrix[y][x].configure(image=acorazadoLeft)
+      buttonsMatrixPlayer1[y][x].configure(image=acorazadoLeft)
     elif rotate == 3:
-      buttonsMatrix[y][x].configure(image=acorazadoDown)
+      buttonsMatrixPlayer1[y][x].configure(image=acorazadoDown)
+  if shipCount[0] < 9:
+    shipCount[0] += 1
+    print(f"Placed objects: {shipCount[0]}") #// solo para revisar, quitar al final
+  if shipCount[0] == 9:
+    # Desactivar todos los botones en esta matriz
+    for row in buttonsMatrixPlayer1:
+      for btn in row:
+        btn.config(state="disabled")
   
 def actionPlayer2(x,y):
   """La función actionPlayer2, recibe la posición donde se van a colocar las naves del segundo jugador y devuelve una imagen para dichas naves
@@ -190,85 +237,92 @@ def actionPlayer2(x,y):
       x (_type_): _description_
       y (_type_): _description_
   """
-  global buttonsMatrix
+  global buttonsMatrixPlayer2
   global shipType
   print (f"x={x},y={y}")
   if shipType == 1: #destructor
     if rotate == 0:
-      buttonsMatrix[y][x].configure(image=destructorRight)
+      buttonsMatrixPlayer2[y][x].configure(image=destructorRight)
     elif rotate == 1:
-      buttonsMatrix[y][x].configure(image=destructorUp)
+      buttonsMatrixPlayer2[y][x].configure(image=destructorUp)
     elif rotate == 2:
-      buttonsMatrix[y][x].configure(image=destructorLeft)
+      buttonsMatrixPlayer2[y][x].configure(image=destructorLeft)
     elif rotate == 3:
-      buttonsMatrix[y][x].configure(image=destructorDown)
+      buttonsMatrixPlayer2[y][x].configure(image=destructorDown)
   elif shipType == 2: #crucero
     if rotate == 0:
-      buttonsMatrix[y][x].configure(image=cruceroRight)
+      buttonsMatrixPlayer2[y][x].configure(image=cruceroRight)
     elif rotate == 1:
-      buttonsMatrix[y][x].configure(image=cruceroUp)
+      buttonsMatrixPlayer2[y][x].configure(image=cruceroUp)
     elif rotate == 2:
-      buttonsMatrix[y][x].configure(image=cruceroLeft)
+      buttonsMatrixPlayer2[y][x].configure(image=cruceroLeft)
     elif rotate == 3:
-      buttonsMatrix[y][x].configure(image=cruceroDown)
+      buttonsMatrixPlayer2[y][x].configure(image=cruceroDown)
   elif shipType == 3: #acorazado
     if rotate == 0:
-      buttonsMatrix[y][x].configure(image=acorazadoRight)
+      buttonsMatrixPlayer2[y][x].configure(image=acorazadoRight)
     elif rotate == 1:
-      buttonsMatrix[y][x].configure(image=acorazadoUp)
+      buttonsMatrixPlayer2[y][x].configure(image=acorazadoUp)
     elif rotate == 2:
-      buttonsMatrix[y][x].configure(image=acorazadoLeft)
+      buttonsMatrixPlayer2[y][x].configure(image=acorazadoLeft)
     elif rotate == 3:
-      buttonsMatrix[y][x].configure(image=acorazadoDown)
+      buttonsMatrixPlayer2[y][x].configure(image=acorazadoDown)
  
 def board(x: int, y: int) -> Tk:
-    global buttonsMatrix 
-    game = Tk()
-    game.title("Piratas de Golfito")
-    game.state("zoomed")
-    windowWidth = x * 50
-    windowHeight = y * 50
-    game.geometry(f"{windowWidth}x{windowHeight}+0+0")
+  global buttonsMatrixPlayer1
+  global buttonsMatrixPlayer2
 
-    # Calcular el tamaño de los botones en función del tamaño de la ventana y la cantidad de botones
-    buttonWidth = windowWidth // x
-    buttonHeight = windowHeight // y
+  game = Tk()
+  game.title("Piratas de Golfito")
+  game.state("zoomed")
+  windowWidth = x * 50
+  windowHeight = y * 50
+  game.geometry(f"{windowWidth}x{windowHeight}+0+0")
+  # Calcular el tamaño de los botones en función del tamaño de la ventana y la cantidad de botones
+  buttonWidth = windowWidth // x
+  buttonHeight = windowHeight // y
+  
+  shipCount = []
+  if shipCount[0] < 9:
+    shipCount[0] += 1
+    print(f"Placed objects: {shipCount[0]}") #// solo para revisar, quitar al final
+  if shipCount[0] == 9:
+    # Desactivar todos los botones en esta matriz
+    for row in buttonsMatrixPlayer1:
+      for btn in row:
+        btn.config(state="disabled")
 
-    """# Calcular el ancho de cada mitad del tablero y el margen
-    halfWidth = (x // 2) * 50
-    margin = 50  # margen entre los dos grupos de botones"""
-
-    # Matrices de botones
-    buttonsMatrixPlayer1 = [[Button(game, command=lambda x=c, y=f: actionPlayer1(x, y)) for c in range(x // 2)] for f in range(y)]
-    buttonsMatrixPlayer2 = [[Button(game, command=lambda x=c, y=f: actionPlayer2(x, y)) for c in range(x // 2)] for f in range(y)]
-
-    # Calcular el centro de cada mitad de la ventana
-    centerX1 = 2.5 * windowWidth // 4
-    centerX2 = 5 * windowWidth // 4
-
-    # Calcular el inicio horizontal para que los botones estén centrados
-    startX1 = centerX1 - (buttonWidth * (x // 4))
-    startX2 = centerX2 - (buttonWidth * (x // 4))
-
-    posy = 500
-    # Colocar y configurar botones para la matríz del jugador 1
-    for buttonsRow in buttonsMatrixPlayer1:
-        posx = startX1
-        for btn in buttonsRow:
-            btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth) #//falta acomodar las matrices en función de la cantidad de botones
-            btn.configure(bg="#47A9CC")
-            posx += buttonWidth
-        posy += buttonHeight
-    posy = 500
-    # Colocar y configurar botones para la matríz del jugador 2
-    for buttonsRow in buttonsMatrixPlayer2:
-        posx = startX2
-        for btn in buttonsRow:
-            btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth)
-            btn.configure(bg="#47A9CC")
-            posx += buttonWidth
-        posy += buttonHeight
-    return game
+  """# Calcular el ancho de cada mitad del tablero y el margen
+  halfWidth = (x // 2) * 50
+  margin = 50  # margen entre los dos grupos de botones"""
+  # Matrices de botones
+  buttonsMatrixPlayer1 = [[Button(game, command=lambda x=c, y=f: actionPlayer1(x, y)) for c in range(x // 2)] for f in range(y)]
+  buttonsMatrixPlayer2 = [[Button(game, command=lambda x=c, y=f: actionPlayer2(x, y)) for c in range(x // 2)] for f in range(y)]
+  # Calcular el centro de cada mitad de la ventana
+  centerX1 = 2.5 * windowWidth // 4
+  centerX2 = 5 * windowWidth // 4
+  # Calcular el inicio horizontal para que los botones estén centrados
+  startX1 = centerX1 - (buttonWidth * (x // 4))
+  startX2 = centerX2 - (buttonWidth * (x // 4))
+  posy = 500
+  # Colocar y configurar botones para la matríz del jugador 1
+  for buttonsRow in buttonsMatrixPlayer1:
+    posx = startX1
+    for btn in buttonsRow:
+        btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth) #//falta acomodar las matrices en función de la cantidad de botones
+        btn.configure(bg="#47A9CC")
+        posx += buttonWidth
+    posy += buttonHeight
+  posy = 500
+  # Colocar y configurar botones para la matríz del jugador 2
+  for buttonsRow in buttonsMatrixPlayer2:
+    posx = startX2
+    for btn in buttonsRow:
+        btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth)
+        btn.configure(bg="#47A9CC")
+        posx += buttonWidth
+    posy += buttonHeight
+  return game
 game = board(boardColumns(),boardRows())
 
 ##KeyBinds##
