@@ -1,33 +1,79 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 
-def crearPartida(partida:tk.Entry,jugador1:tk.Entry, jugador2:tk.Entry, dimensiones:tk.Entry):
-    resultado = [] 
-    resultado.append(partida.get())
-    resultado.append(jugador1.get())
-    resultado.append(jugador2.get())
-    resultado.append(dimensiones.get())
+resultado = []
+#Crear el archivo de partidas en caso de no existir
 
-    partida = open(f"{resultado[0]}.txt", "w")
-    print(resultado)
+def crearPartida(partida:tk.Entry,jugador1:tk.Entry, jugador2:tk.Entry, dimensiones:tk.Entry):
+    global resultado
+    partidaTemporal = partida.get()
+    #Crear el archivo de partidas en caso de no existir
+    try:
+        partidas = open("partidas.txt", "r")
+        listaPartidas = [linea.strip() for linea in partidas.readlines()]
+
+        if partidaTemporal in listaPartidas:
+            print("Ese nombre de partida ya existe")
+        else:
+            partidasTotales = open("partidas.txt", "a")
+            partidasTotales.write(f"\n{partidaTemporal}")
+            partidasTotales.close()   
+
+            resultado.append(partida.get())
+            resultado.append(jugador1.get())
+            resultado.append(jugador2.get())
+            resultado.append(dimensiones.get())
+
+            partidaNueva = open(f"{partidaTemporal}.txt","w")
+            partidaNueva.write(f"{resultado[1]}")
+            for dato in resultado[2:]:
+                partidaNueva.write(f"\n{dato}")
+            partidaNueva.close()
+
+            resultado.clear()
+
+    except FileNotFoundError:
+        partidas = open("partidas.txt","w")
+        partidas.write(f"{partidaTemporal}")
+
+def cargarPartida():
+    """Abre una ventana que contiene las partidas guardadas
+    """
+    #Ventana de cargar partida
+    partidasGuardadas = tk.Tk()
+    partidasGuardadas.title("Partidas guardadas")
+    partidasGuardadas.geometry("1000x700")
+    partidasGuardadas.configure(background="gray14")
+    partidasGuardadas.resizable(False, False)
+
+    tituloRegistro = tk.Label(partidasGuardadas, text="Cargar Partida", background="gray14", fg="yellow2", font=('Helvetica bold', 35))
+    tituloRegistro.place(relx=0.5, rely=0.2, anchor = "center")
+
+    ingresarPartida = tk.Label(partidasGuardadas, text="Ingrese el nombre de la partida:", background="gray14", fg="cyan", font=('Helvetica bold', 20))
+    ingresarPartida.place(relx=0.15,rely=0.5)
+    partidaCargada = tk.Entry(partidasGuardadas, background="gray25", fg="snow", font=('Helvetica bold', 20))
+    partidaCargada.place(relx=0.55, rely=0.5)
+
+    partidasGuardadas.mainloop()
 
 def nuevaPartida():
     """Abre una ventana llamada nueva partida
     """
+    #Ventana de nueva partida
     partidaNueva = tk.Tk()
     partidaNueva.title("Nueva Partida")
     partidaNueva.geometry("1000x700")
     partidaNueva.configure(background="gray14")  #Fondo del menú de color gris
     partidaNueva.resizable(False, False)
-
-    tituloRegistro = tk.Label(partidaNueva, text="Menú de partida nueva", background="gray14", fg="yellow2", font=('Helvetica bold', 35))
+    #Título de la ventana
+    tituloRegistro = tk.Label(partidaNueva, text="Crear Partida", background="gray14", fg="yellow2", font=('Helvetica bold', 35))
     tituloRegistro.place(relx=0.5, rely=0.2, anchor = "center")
-
+    #Etiquetas
     labelNombrePartida = tk.Label(partidaNueva, text="Nombre de la partida:", background="gray14", fg= "cyan", font=('Helvetica bold', 20))
     labelJugador1 = tk.Label(partidaNueva, text="Jugador #1:", background="gray14", fg="cyan", font=('Helvetica bold', 20))
     labelJugador2 = tk.Label(partidaNueva, text="Jugador #2:", background="gray14", fg="cyan", font=('Helvetica bold', 20))
     labelDimensiones = tk.Label(partidaNueva, text="Dimensiones:", background="gray14", fg="cyan", font=('Helvetica bold', 20))
-
+    #Espacios de entrada
     nombrePartida = tk.Entry(partidaNueva, background="gray25", fg="snow", font=('Helvetica bold', 20))
     jugador1 = tk.Entry(partidaNueva, background="gray25", fg="snow", font=('Helvetica bold', 20))
     jugador2 = tk.Entry(partidaNueva, background="gray25", fg="snow", font=('Helvetica bold', 20))
@@ -67,8 +113,8 @@ def menuJuego():
     botonPartidaN.place(relx=0.5, rely=0.4, anchor = "center", height=50, width=200)
 
     #Botón de cargar partida
-    cargarPartida = tk.Button(juego, text="Cargar partida")
-    cargarPartida.place(relx=0.5, rely=0.5, anchor = "center", height=50, width=200)
+    botonCargarP = tk.Button(juego, text="Cargar partida", command=lambda:(juego.destroy(),cargarPartida()))
+    botonCargarP.place(relx=0.5, rely=0.5, anchor = "center", height=50, width=200)
 
     #Botón de salir
     botonSalir = tk.Button(juego, text="Salir del juego", command = juego.destroy)
