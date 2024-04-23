@@ -159,48 +159,6 @@ def onClickFalse(): # Desactiva las teclas Q, W y R para que no puedan volver a 
   global  keyQ, keyW, keyE
   keyQ = keyW = keyE = False
 
-##Buscar colisiones##
-def checkPositionDestructor(baseShipPosition):
-  global shipsPlayer1
-  global shipKeys1
-  currentShipIndex1 = 0
-  currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
-  basePosition = baseShipPosition
-  element = 0
-  baseDirection = shipsPlayer1[currentShipKey]["direction"]
-  while element < len(shipsPlayer1):
-    currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
-    currentPosition = shipsPlayer1[currentShipKey]["position"]
-    print(basePosition)
-    print(currentPosition)
-    if baseDirection == "Right": #Derecha 
-      basePosition[0]+1
-      if currentPosition == basePosition:
-        return True
-      else:
-        basePosition[0]-1
-    elif baseDirection == "Up": # Arriba
-      basePosition[1]-1
-      if currentPosition == basePosition:
-        return True
-      else:
-        basePosition[1]+1
-    if baseDirection == "Left": #Derecha 
-      basePosition[0]-1
-      if currentPosition == basePosition:
-        return True
-      else:
-        basePosition[0]+1
-    elif baseDirection == "Down": #Abajo
-      basePosition[1]-1
-      if currentPosition == basePosition:
-        return True
-      else:
-        basePosition[1]+1
-    currentShipIndex1 += 1
-    element += 1
-  return False
-
 ##Funciones KeyBinds##
 def rotateShip(event):
   global rotate
@@ -700,13 +658,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"] = newPosition
               buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
               buttonsMatrixPlayer2[newPosition[1]][newPosition[0]-2].configure(image="")
-            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Left"
-              shipsPlayer2[currentShipKey]["image"] = destructorLeft
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
-            # Si no tiene ninguna limitación"""
-            
           ##Revisión de avance, arriba##
           elif shipsPlayer2[currentShipKey]["direction"] == "Up":
             # Revisar si se encuentra al borde superior del tablero
@@ -727,12 +678,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"] = newPosition
               buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
               buttonsMatrixPlayer2[newPosition[1]+2][newPosition[0]].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Down"
-              shipsPlayer2[currentShipKey]["image"] = destructorDown
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
           ##Revisión de avance, izquierda##
           elif shipsPlayer2[currentShipKey]["direction"] == "Left":
             # Revisar si se encuentra la borde izquierdo del tablero
@@ -753,13 +698,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"] = newPosition
               buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
               buttonsMatrixPlayer2[newPosition[1]][newPosition[0]+2].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Right"
-              shipsPlayer2[currentShipKey]["image"] = destructorRight
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-            
           ##Revisión de avance, abajo##
           elif shipsPlayer2[currentShipKey]["direction"] == "Down":
             # Revisar si se encuentra al borde superior del tablero
@@ -780,12 +718,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"] = newPosition
               buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
               buttonsMatrixPlayer2[newPosition[1]-2][newPosition[0]].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Up"
-              shipsPlayer2[currentShipKey]["image"] = destructorUp
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
         # Crucero
         elif shipsPlayer2[currentShipKey]["type"] == "Crucero":
           ##Revisión de avance, derecha##
@@ -807,13 +739,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroRight)
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]-1].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Left"
-              shipsPlayer2[currentShipKey]["image"] = cruceroLeft
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-            
           ##Revisión de avance, arriba##
           elif shipsPlayer2[currentShipKey]["direction"] == "Up":
             # Revisar si se encuentra al borde superior del tablero
@@ -834,13 +759,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
               buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroUp2)
               buttonsMatrixPlayer2[newPosition[0][1]+1][newPosition[0][0]].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Down"
-              shipsPlayer2[currentShipKey]["image"] = cruceroDown
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-            
           ##Revisión de avance, izquierda##
           elif shipsPlayer2[currentShipKey]["direction"] == "Left":
             # Revisar si se encuentra la borde izquierdo del tablero
@@ -862,13 +780,6 @@ def shipMovement(event):
               buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroLeft2)
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]+1].configure(image="")
           ##Revisión de avance, abajo##
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Right"
-              shipsPlayer2[currentShipKey]["image"] = cruceroRight
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-            
           elif shipsPlayer2[currentShipKey]["direction"] == "Down":
             # Revisar si se encuentra al borde superior del tablero
             if shipsPlayer2[currentShipKey]["position"][1][1] == matrixPlayer2[-1][-1]: #revisa si se encuentra en el borde derecho del tablero
@@ -887,12 +798,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroDown)
               buttonsMatrixPlayer2[newPosition[0][1]-1][newPosition[0][0]].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Up"
-              shipsPlayer2[currentShipKey]["image"] = cruceroUp
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
         # Acorazado
         elif shipsPlayer2[currentShipKey]["type"] == "Acorazado":
           ##Revisión de avance, derecha##
@@ -918,13 +823,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][2] = newPosition[2]
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoRight)
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]-1].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Left"
-              shipsPlayer2[currentShipKey]["image"] = acorazadoLeft
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-
           ##Revisión de avance, arriba##
           elif shipsPlayer2[currentShipKey]["direction"] == "Up":
             # Revisar si se encuentra al borde superior del tablero
@@ -949,13 +847,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][2] = newPosition[2]
               buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoUp3)
               buttonsMatrixPlayer2[newPosition[0][1]+1][newPosition[0][0]].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Down"
-              shipsPlayer2[currentShipKey]["image"] = acorazadoDown
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-            
           ##Revisión de avance, izquierda##
           elif shipsPlayer2[currentShipKey]["direction"] == "Left":
             # Revisar si se encuentra la borde izquierdo del tablero
@@ -979,13 +870,6 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][2] = newPosition[2]
               buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoLeft3)
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]+1].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Right"
-              shipsPlayer2[currentShipKey]["image"] = acorazadoRight
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
-            
           ##Revisión de avance, abajo##
           elif shipsPlayer2[currentShipKey]["direction"] == "Down":
             # Revisar si se encuentra al borde superior del tablero
@@ -1009,13 +893,7 @@ def shipMovement(event):
               shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
               buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoDown)
               shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
-              buttonsMatrixPlayer2[newPosition[0][1]-1][newPosition[0][0]].configure(image="")
-            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
-            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
-              shipsPlayer2[currentShipKey]["direction"] = "Up"
-              shipsPlayer2[currentShipKey]["image"] = acorazadoUp
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
-              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""       
+              buttonsMatrixPlayer2[newPosition[0][1]-1][newPosition[0][0]].configure(image="")    
     currentShipIndex2 += 1 
     element += 1
     
@@ -1464,40 +1342,36 @@ def board(numFilas: int, numColumnas: int) -> Tk:
   seleccionJugador = Label(game, text="Jugador 1", background="gray14", fg="yellow2", font=('Helvetica bold', 35))
   seleccionJugador.place(x=80, y=80)
 
-
   botonListo = Button(game, text="Listo")
   botonListo.configure(state=DISABLED)
   if totalShipsPlayer1 == 12:
     botonListo.configure(state=NORMAL)
   botonListo.place(x=50, y=300)
   #Medidas de la pantalla en uso
-  screen_width = game.winfo_screenwidth()
-  screen_height = game.winfo_screenheight()
+  screenWidth = game.winfo_screenwidth()
+  screenHeight = game.winfo_screenheight()
     
-  game.geometry(f"{screen_width}x{screen_height}")  
-
+  game.geometry(f"{screenWidth}x{screenHeight}")  
 
   shipsImages() # Se llama la función que asigna las imagenes a las varibles de los barcos.
   onClickTrue() # Se llama la función que permite el click
   # Calcular el tamaño de los botones en función del tamaño de la ventana y la cantidad de botones
   buttonWidth = 672//(numFilas/2)
   buttonHeight = 672//(numFilas/2)
-
   
   # Matrices de botones
   buttonsMatrixPlayer1 = [[Button(game, command=lambda x=c, y=f: actionPlayer1(x, y)) for c in range(numFilas // 2)] for f in range(numColumnas)]
   matrixPlayer1 = [[c for c in range(numFilas // 2)] for f in range(numColumnas)]
-
   
   posy = 96
   # Colocar y configurar botones para la matríz del jugador 1
   for buttonsRow in buttonsMatrixPlayer1:
     posx = 624
     for btn in buttonsRow:
-        btn.place(x=posx, y=posy, height = 672//(numFilas/2), width = 672//(numFilas/2))
+        btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth)
         btn.configure(bg="#47A9CC")
-        posx += 672//(numFilas/2)
-    posy += 672//(numFilas/2)
+        posx += buttonWidth
+    posy += buttonHeight
   posy = 96
   # Colocar y configurar botones para la matríz del jugador 2
   return game
