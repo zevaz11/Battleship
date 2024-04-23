@@ -4,7 +4,6 @@ from boardDimensions import * #llamada al archivo boardDimensions
 from PIL import ImageTk, Image
 from tkinter.font import *
 
-
 keyS = True
 buttonsMatrixPlayer1= []
 buttonsMatrixPlayer2= []
@@ -17,7 +16,6 @@ actualText = "Battleship"
 family = "Terminal",
 size = 30
 color = "black"
-
 #Contadores de naves de cada jugador
 totalShipsPlayer1 = 0
 totalShipsPlayer2 = 0
@@ -27,7 +25,6 @@ acorazadosPlayer1 = 0
 destructorsPlayer2 = 0
 crucerosPlayer2 = 0
 acorazadosPlayer2 = 0
-
 ##Diccionarios con la información de los barcos##
 currentShipIndex1 = 0
 currentShipIndex2 = 0
@@ -59,7 +56,7 @@ shipsPlayer2 = {
   "ship11": {"visibility": True, "mobility": True, "alive": True, "type": "", "direction": "", "position":[0,0], "image": ""},
   "ship12": {"visibility": True, "mobility": True, "alive": True, "type": "", "direction": "", "position":[0,0], "image": ""}
 }
-#Llaves de las listas#
+##Llaves de las listas##
 shipKeys1 = list(shipsPlayer1.keys())
 shipKeys2 = list(shipsPlayer2.keys())
 
@@ -216,30 +213,52 @@ def selectShip1(event):
   global destructorRight, destructorUp, destructorLeft, destructorDown #Posiciones barcos
   global shipsPlayer1, rotate, shipType, currentShipIndex1, currentShipIndex2 #Parametros de los barcos
   global shipKeys1, shipKeys2 #listas con las llaves de los diccionarios
-  global destructorsPlayer1, totalShipsPlayer1
+  global destructorsPlayer1, totalShipsPlayer1, destructorsPlayer2, totalShipsPlayer2
   global keyQ
-  if destructorsPlayer1 >= 6:
-    messagebox.showinfo("Advertencia","Ya colocó todos los destructores")
-  elif keyQ == True:
-    destructorsPlayer1 += 1
-    currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
-    if rotate == 0:
-      shipsPlayer1[currentShipKey]['image'] = destructorRight
-      shipsPlayer1[currentShipKey]['direction'] = "Right"
-    elif rotate == 1:
-      shipsPlayer1[currentShipKey]['image'] = destructorUp
-      shipsPlayer1[currentShipKey]['direction'] = "Up"
-    elif rotate == 2:
-      shipsPlayer1[currentShipKey]['image'] = destructorLeft
-      shipsPlayer1[currentShipKey]['direction'] = "Left"
-    elif rotate == 3:
-      shipsPlayer1[currentShipKey]['image'] = destructorDown
-      shipsPlayer1[currentShipKey]['direction'] = "Down"
-    shipType = 1
-    shipsPlayer1[currentShipKey]['type'] = "Destructor"
-    messagebox.showinfo("Data",shipsPlayer1) #//Solo para pruebas, quitar al final
-    totalShipsPlayer1 += 1
-    onClickFalse()
+  if totalShipsPlayer1 < 12:
+    if destructorsPlayer1 >= 6:
+      messagebox.showinfo("Advertencia","Ya colocó todos los destructores")
+    elif keyQ == True:
+      destructorsPlayer1 += 1
+      currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
+      if rotate == 0:
+        shipsPlayer1[currentShipKey]['image'] = destructorRight
+        shipsPlayer1[currentShipKey]['direction'] = "Right"
+      elif rotate == 1:
+        shipsPlayer1[currentShipKey]['image'] = destructorUp
+        shipsPlayer1[currentShipKey]['direction'] = "Up"
+      elif rotate == 2:
+        shipsPlayer1[currentShipKey]['image'] = destructorLeft
+        shipsPlayer1[currentShipKey]['direction'] = "Left"
+      elif rotate == 3:
+        shipsPlayer1[currentShipKey]['image'] = destructorDown
+        shipsPlayer1[currentShipKey]['direction'] = "Down"
+      shipType = 1
+      shipsPlayer1[currentShipKey]['type'] = "Destructor"
+      totalShipsPlayer1 += 1
+      onClickFalse()
+  elif totalShipsPlayer1 >= 12:
+    if destructorsPlayer2 >= 6:
+      messagebox.showinfo("Advertencia","Ya colocó todos los destructores")
+    elif keyQ == True:
+      destructorsPlayer2 += 1
+      currentShipKey = shipKeys2[currentShipIndex2] # Posición actual en el diccionario 
+      if rotate == 0:
+        shipsPlayer2[currentShipKey]['image'] = destructorRight
+        shipsPlayer2[currentShipKey]['direction'] = "Right"
+      elif rotate == 1:
+        shipsPlayer2[currentShipKey]['image'] = destructorUp
+        shipsPlayer2[currentShipKey]['direction'] = "Up"
+      elif rotate == 2:
+        shipsPlayer2[currentShipKey]['image'] = destructorLeft
+        shipsPlayer2[currentShipKey]['direction'] = "Left"
+      elif rotate == 3:
+        shipsPlayer2[currentShipKey]['image'] = destructorDown
+        shipsPlayer2[currentShipKey]['direction'] = "Down"
+      shipType = 1
+      shipsPlayer2[currentShipKey]['type'] = "Destructor"
+      totalShipsPlayer2 += 1
+      onClickFalse()
   else:
     messagebox.showinfo("Advertencia", "Debe de colocar el barco antes de seleccionar otro")
 
@@ -247,61 +266,109 @@ def selectShip2(event):
   global cruceroRight, cruceroRight2, cruceroUp, cruceroUp2, cruceroLeft, cruceroLeft2, cruceroDown, cruceroDown2 #Posiciones barcos
   global shipsPlayer1, rotate, shipType, currentShipIndex1, currentShipIndex2 #Parametros de los barcos
   global shipKeys1, shipKeys2 #listas con las llaves de los diccionarios
-  global crucerosPlayer1, totalShipsPlayer1
+  global crucerosPlayer1, totalShipsPlayer1, crucerosPlayer2, totalShipsPlayer2
   global keyW
-  if crucerosPlayer1 >= 4:
-    messagebox.showinfo("Advertencia","Ya colocó todos los cruceros")
-  elif keyW == True:
-    crucerosPlayer1 += 1
-    currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
-    if rotate == 0:
-      shipsPlayer1[currentShipKey]['image'] = cruceroRight
-      shipsPlayer1[currentShipKey]['direction'] = "Right"
-    elif rotate == 1:
-      shipsPlayer1[currentShipKey]['image'] = cruceroUp
-      shipsPlayer1[currentShipKey]['direction'] = "Up"
-    elif rotate == 2:
-      shipsPlayer1[currentShipKey]['image'] = cruceroLeft
-      shipsPlayer1[currentShipKey]['direction'] = "Left"
-    elif rotate == 3:
-      shipsPlayer1[currentShipKey]['image'] = cruceroDown
-      shipsPlayer1[currentShipKey]['direction'] = "Down"
-    shipType = 2
-    shipsPlayer1[currentShipKey]['type'] = "Crucero"
-    messagebox.showinfo("Data",shipsPlayer1) #//Solo para pruebas, quitar al final
-    totalShipsPlayer1 += 1
-    onClickFalse()
+  if totalShipsPlayer1 < 12:
+    if crucerosPlayer1 >= 4:
+      messagebox.showinfo("Advertencia","Ya colocó todos los cruceros")
+    elif keyW == True:
+      crucerosPlayer1 += 1
+      currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
+      if rotate == 0:
+        shipsPlayer1[currentShipKey]['image'] = cruceroRight
+        shipsPlayer1[currentShipKey]['direction'] = "Right"
+      elif rotate == 1:
+        shipsPlayer1[currentShipKey]['image'] = cruceroUp
+        shipsPlayer1[currentShipKey]['direction'] = "Up"
+      elif rotate == 2:
+        shipsPlayer1[currentShipKey]['image'] = cruceroLeft
+        shipsPlayer1[currentShipKey]['direction'] = "Left"
+      elif rotate == 3:
+        shipsPlayer1[currentShipKey]['image'] = cruceroDown
+        shipsPlayer1[currentShipKey]['direction'] = "Down"
+      shipType = 2
+      shipsPlayer1[currentShipKey]['type'] = "Crucero"
+
+      totalShipsPlayer1 += 1
+      onClickFalse()
+  elif totalShipsPlayer1 >= 12:
+    if crucerosPlayer2 >= 4:
+      messagebox.showinfo("Advertencia","Ya colocó todos los cruceros")
+    elif keyW == True:
+      crucerosPlayer2 += 1
+      currentShipKey = shipKeys2[currentShipIndex2] # Posición actual en el diccionario 
+      if rotate == 0:
+        shipsPlayer2[currentShipKey]['image'] = cruceroRight
+        shipsPlayer2[currentShipKey]['direction'] = "Right"
+      elif rotate == 1:
+        shipsPlayer2[currentShipKey]['image'] = cruceroUp
+        shipsPlayer2[currentShipKey]['direction'] = "Up"
+      elif rotate == 2:
+        shipsPlayer2[currentShipKey]['image'] = cruceroLeft
+        shipsPlayer2[currentShipKey]['direction'] = "Left"
+      elif rotate == 3:
+        shipsPlayer2[currentShipKey]['image'] = cruceroDown
+        shipsPlayer2[currentShipKey]['direction'] = "Down"
+      shipType = 2
+      shipsPlayer2[currentShipKey]['type'] = "Crucero"
+
+      totalShipsPlayer2 += 1
+      onClickFalse()
   else:
     messagebox.showinfo("Advertencia", "Debe de colocar el barco antes de seleccionar otro")
+  
 
 def selectShip3(event):
   global acorazadoRight, acorazadoRight2, acorazadoRight3, acorazadoUp, acorazadoUp2, acorazadoUp3, acorazadoLeft, acorazadoLeft2, acorazadoLeft3, acorazadoDown, acorazadoDown2, acorazadoDown3 #Posiciones barcos
   global shipsPlayer1, rotate, shipType, currentShipIndex1, currentShipIndex2 #Parametros de los barcos
   global shipKeys1, shipKeys2 #listas con las llaves de los diccionarios
-  global acorazadosPlayer1, totalShipsPlayer1
+  global acorazadosPlayer1, totalShipsPlayer1, acorazadosPlayer2, totalShipsPlayer2
   global keyE
-  if acorazadosPlayer1 >= 2:
-    messagebox.showinfo("Advertencia","Ya colocó todos los acorazados")
-  elif keyE == True:
-    acorazadosPlayer1 += 1
-    currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
-    if rotate == 0:
-      shipsPlayer1[currentShipKey]['image'] = acorazadoRight
-      shipsPlayer1[currentShipKey]['direction'] = "Right"
-    elif rotate == 1:
-      shipsPlayer1[currentShipKey]['image'] = acorazadoUp
-      shipsPlayer1[currentShipKey]['direction'] = "Up"
-    elif rotate == 2:
-      shipsPlayer1[currentShipKey]['image'] = acorazadoLeft
-      shipsPlayer1[currentShipKey]['direction'] = "Left"
-    elif rotate == 3:
-      shipsPlayer1[currentShipKey]['image'] = acorazadoDown
-      shipsPlayer1[currentShipKey]['direction'] = "Down"
-    shipType = 3
-    shipsPlayer1[currentShipKey]['type'] = "Acorazado"
-    messagebox.showinfo("Data",shipsPlayer1) #//Solo para pruebas, quitar al final
-    totalShipsPlayer1 +=1
-    onClickFalse()
+  if totalShipsPlayer1 < 12:
+    if acorazadosPlayer1 >= 2:
+      messagebox.showinfo("Advertencia","Ya colocó todos los acorazados")
+    elif keyE == True:
+      acorazadosPlayer1 += 1
+      currentShipKey = shipKeys1[currentShipIndex1] # Posición actual en el diccionario 
+      if rotate == 0:
+        shipsPlayer1[currentShipKey]['image'] = acorazadoRight
+        shipsPlayer1[currentShipKey]['direction'] = "Right"
+      elif rotate == 1:
+        shipsPlayer1[currentShipKey]['image'] = acorazadoUp
+        shipsPlayer1[currentShipKey]['direction'] = "Up"
+      elif rotate == 2:
+        shipsPlayer1[currentShipKey]['image'] = acorazadoLeft
+        shipsPlayer1[currentShipKey]['direction'] = "Left"
+      elif rotate == 3:
+        shipsPlayer1[currentShipKey]['image'] = acorazadoDown
+        shipsPlayer1[currentShipKey]['direction'] = "Down"
+      shipType = 3
+      shipsPlayer1[currentShipKey]['type'] = "Acorazado"
+
+      totalShipsPlayer1 +=1
+      onClickFalse()
+  elif totalShipsPlayer2 <= 12:
+    if acorazadosPlayer2 >= 2:
+      messagebox.showinfo("Advertencia","Ya colocó todos los acorazados")
+    elif keyE == True:
+      acorazadosPlayer2 += 1
+      currentShipKey = shipKeys2[currentShipIndex2] # Posición actual en el diccionario 
+      if rotate == 0:
+        shipsPlayer2[currentShipKey]['image'] = acorazadoRight
+        shipsPlayer2[currentShipKey]['direction'] = "Right"
+      elif rotate == 1:
+        shipsPlayer2[currentShipKey]['image'] = acorazadoUp
+        shipsPlayer2[currentShipKey]['direction'] = "Up"
+      elif rotate == 2:
+        shipsPlayer2[currentShipKey]['image'] = acorazadoLeft
+        shipsPlayer2[currentShipKey]['direction'] = "Left"
+      elif rotate == 3:
+        shipsPlayer2[currentShipKey]['image'] = acorazadoDown
+        shipsPlayer2[currentShipKey]['direction'] = "Down"
+      shipType = 3
+      shipsPlayer2[currentShipKey]['type'] = "Acorazado"
+      totalShipsPlayer2 +=1
+      onClickFalse()
   else:
     messagebox.showinfo("Advertencia", "Debe de colocar el barco antes de seleccionar otro")
 
@@ -319,10 +386,11 @@ def shipMovement(event):
   global cruceroRight, cruceroRight2, cruceroUp, cruceroUp2, cruceroLeft, cruceroLeft2, cruceroDown, cruceroDown2
   global acorazadoRight, acorazadoRight2, acorazadoRight3, acorazadoUp, acorazadoUp2, acorazadoUp3, acorazadoLeft, acorazadoLeft2, acorazadoLeft3, acorazadoDown, acorazadoDown2, acorazadoDown3
   # ShipKey, son listas que almacenan las naves de cada diccionario de cada jugador
-  currentShipIndex1 = 0 #// Esto es temporal
-  currentShipIndex2 = 0 #// Esto es temporal
+  currentShipIndex1 = 0 
+  currentShipIndex2 = 0 
   currentShipKey = shipKeys1[currentShipIndex1] # En la variable currentShipKey, se guarda el valor de la posición del diccionario que vamos a revisar
   element = 0
+  #movimiento primer jugador
   while element < len(shipKeys1):
     currentShipKey = shipKeys1[currentShipIndex1] # En la variable currentShipKey, se guarda el valor de la posición del diccionario que vamos a revisar
     actualPosition = shipsPlayer1[currentShipKey]["position"] # actualPosition, va a almacenar la posición actual de la nave
@@ -672,6 +740,356 @@ def shipMovement(event):
             
     currentShipIndex1 += 1 
     element += 1
+  element = 0
+  #movimiento segundo jugador
+  while element < len(shipKeys2):
+    currentShipKey = shipKeys2[currentShipIndex2] # En la variable currentShipKey, se guarda el valor de la posición del diccionario que vamos a revisar
+    actualPosition = shipsPlayer2[currentShipKey]["position"] # actualPosition, va a almacenar la posición actual de la nave
+    newPosition = actualPosition # es la variable que va a almacenar la nueva posición que va a tener la nave
+    # Primero, revisamos si la nave aun no ha sido destruida
+    if shipsPlayer2[currentShipKey]["alive"] == True: # Creo que esto es descartable, porque para el movimiento no nos importa si está vivo o no, solo si se puede mover
+      # Segundo, revisamos si la nave no ha recibido daños y por ende, aún se puede mover
+      if shipsPlayer2[currentShipKey]["mobility"] == True:
+        # Destructor
+        if shipsPlayer2[currentShipKey]["type"] == "Destructor":
+          ##Revisión de avance, derecha##
+          if shipsPlayer2[currentShipKey]["direction"] == "Right":
+            # Revisar si se encuentra la borde derecho del tablero
+            if shipsPlayer2[currentShipKey]["position"][0] == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][1]][-1]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Left"
+              shipsPlayer2[currentShipKey]["image"] = destructorLeft
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+            # Revisa sí el barco se saldría de la cuadricula al avanzar dos espacios
+            elif shipsPlayer2[currentShipKey]["position"][0]+1 == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][1]][-1]: 
+              newPosition[0] += 1 # x+1
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]-1].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            else:
+              newPosition[0] += 2 # x+2
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]-2].configure(image="")
+            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Left"
+              shipsPlayer2[currentShipKey]["image"] = destructorLeft
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+            # Si no tiene ninguna limitación"""
+            
+          ##Revisión de avance, arriba##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Up":
+            # Revisar si se encuentra al borde superior del tablero
+            if shipsPlayer2[currentShipKey]["position"][1] == matrixPlayer2[0][0]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Down"
+              shipsPlayer2[currentShipKey]["image"] = destructorDown
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+            # Revisa sí el barco se saldría de la cuadricula al avanzar dos espacios
+            elif shipsPlayer2[currentShipKey]["position"][1]-1 == matrixPlayer2[0][0]: 
+              newPosition[1] -= 1 # y-1
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]+1][newPosition[0]].configure(image="")
+            # Si no tiene ninguna limitación
+            else:
+              newPosition[1] -= 2 # y-2
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]+2][newPosition[0]].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Down"
+              shipsPlayer2[currentShipKey]["image"] = destructorDown
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+          ##Revisión de avance, izquierda##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Left":
+            # Revisar si se encuentra la borde izquierdo del tablero
+            if shipsPlayer2[currentShipKey]["position"][0] == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][1]][0]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Right"
+              shipsPlayer2[currentShipKey]["image"] = destructorRight
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+            # Revisa sí el barco se saldría de la cuadricula al avanzar dos espacios
+            elif shipsPlayer2[currentShipKey]["position"][0]-1 == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][1]][0]: 
+              newPosition[0] -= 1 # x-1
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]+1].configure(image="")
+            # Si no tiene ninguna limitación
+            else:  
+              newPosition[0] -= 2 # x-2
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]+2].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Right"
+              shipsPlayer2[currentShipKey]["image"] = destructorRight
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+            
+          ##Revisión de avance, abajo##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Down":
+            # Revisar si se encuentra al borde superior del tablero
+            if shipsPlayer2[currentShipKey]["position"][1] == matrixPlayer2[-1][-1]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Up"
+              shipsPlayer2[currentShipKey]["image"] = destructorUp
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+            # Revisa sí el barco se saldría de la cuadricula al avanzar dos espacios
+            elif shipsPlayer2[currentShipKey]["position"][1]+1 == matrixPlayer2[-1][-1]: 
+              newPosition[1] += 1 # y-1
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]-1][newPosition[0]].configure(image="")
+            # Si no tiene ninguna limitación
+            else:  
+              newPosition[1] += 2 # y+2
+              shipsPlayer2[currentShipKey]["position"] = newPosition
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])
+              buttonsMatrixPlayer2[newPosition[1]-2][newPosition[0]].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif checkPositionDestructor(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Up"
+              shipsPlayer2[currentShipKey]["image"] = destructorUp
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+        # Crucero
+        elif shipsPlayer2[currentShipKey]["type"] == "Crucero":
+          ##Revisión de avance, derecha##
+          if shipsPlayer2[currentShipKey]["direction"] == "Right":
+            # Revisar si se encuentra la borde derecho del tablero
+            if shipsPlayer2[currentShipKey]["position"][1][0] == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][1][1]][-1]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Left"
+              shipsPlayer2[currentShipKey]["image"] = cruceroLeft
+              newPosition[0][0] += 1
+              newPosition[1][0] -= 1
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroLeft)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroLeft2)
+            # Si no tiene ninguna limitación
+            else:
+              newPosition[0][0] += 1 # trasero x+1
+              newPosition[1][0] += 1 # frente x+1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroRight2)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroRight)
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]-1].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Left"
+              shipsPlayer2[currentShipKey]["image"] = cruceroLeft
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+            
+          ##Revisión de avance, arriba##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Up":
+            # Revisar si se encuentra al borde superior del tablero
+            if shipsPlayer2[currentShipKey]["position"][1][1] == matrixPlayer2[0][0]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Down"
+              shipsPlayer2[currentShipKey]["image"] = cruceroDown
+              newPosition[0][1] -= 1
+              newPosition[1][1] += 1
+              
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroDown)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroDown2)
+            # Si no tiene ninguna limitación
+            else:
+              newPosition[0][1] -= 1 # y-1
+              newPosition[1][1] -= 1 # y-1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroUp)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroUp2)
+              buttonsMatrixPlayer2[newPosition[0][1]+1][newPosition[0][0]].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Down"
+              shipsPlayer2[currentShipKey]["image"] = cruceroDown
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+            
+          ##Revisión de avance, izquierda##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Left":
+            # Revisar si se encuentra la borde izquierdo del tablero
+            if shipsPlayer2[currentShipKey]["position"][1][0] == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][0][1]][0]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Right"
+              shipsPlayer2[currentShipKey]["image"] = cruceroRight
+              newPosition[0][0] -= 1
+              newPosition[1][0] += 1
+              
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroRight)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroRight2)
+            # Si no tiene ninguna limitación
+            else:  
+              newPosition[0][0] -= 1 # trasero x-1
+              newPosition[1][0] -= 1 # frente x-1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroLeft)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroLeft2)
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]+1].configure(image="")
+          ##Revisión de avance, abajo##
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Right"
+              shipsPlayer2[currentShipKey]["image"] = cruceroRight
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+            
+          elif shipsPlayer2[currentShipKey]["direction"] == "Down":
+            # Revisar si se encuentra al borde superior del tablero
+            if shipsPlayer2[currentShipKey]["position"][1][1] == matrixPlayer2[-1][-1]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Up"
+              shipsPlayer2[currentShipKey]["image"] = cruceroUp
+              newPosition[0][1] += 1
+              newPosition[1][1] -= 1
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroUp)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroUp2)
+            # Si no tiene ninguna limitación
+            else:  
+              newPosition[0][1] += 1 # y+1
+              newPosition[1][1] += 1 # y+1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=cruceroDown2)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=cruceroDown)
+              buttonsMatrixPlayer2[newPosition[0][1]-1][newPosition[0][0]].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Up"
+              shipsPlayer2[currentShipKey]["image"] = cruceroUp
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+        # Acorazado
+        elif shipsPlayer2[currentShipKey]["type"] == "Acorazado":
+          ##Revisión de avance, derecha##
+          if shipsPlayer2[currentShipKey]["direction"] == "Right":
+            # Revisar si se encuentra la borde derecho del tablero
+            if shipsPlayer2[currentShipKey]["position"][2][0] == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][2][1]][-1]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Left"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoLeft
+              newPosition[0][0] += 2
+              newPosition[2][0] -= 2
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoLeft)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoLeft2)
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoLeft3)
+            # Si no tiene ninguna limitación
+            else:
+              newPosition[0][0] += 1 # trasero x+1
+              newPosition[1][0] += 1 # medio x+1
+              newPosition[2][0] += 1 # frente x+1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoRight3)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoRight2)
+              shipsPlayer2[currentShipKey]["position"][2] = newPosition[2]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoRight)
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]-1].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Left"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoLeft
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+
+          ##Revisión de avance, arriba##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Up":
+            # Revisar si se encuentra al borde superior del tablero
+            if shipsPlayer2[currentShipKey]["position"][2][1] == matrixPlayer2[0][0]: #revisa si se encuentra en el borde superior del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Down"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoDown
+              newPosition[0][1] -= 2
+              newPosition[2][1] += 2
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoDown)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoDown2)
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoDown3)
+            # Si no tiene ninguna limitación
+            else:
+              newPosition[0][1] -= 1 # y-1
+              newPosition[1][1] -= 1 # y-1
+              newPosition[2][1] -= 1 # y-1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoUp)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoUp2)
+              shipsPlayer2[currentShipKey]["position"][2] = newPosition[2]
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoUp3)
+              buttonsMatrixPlayer2[newPosition[0][1]+1][newPosition[0][0]].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Down"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoDown
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+            
+          ##Revisión de avance, izquierda##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Left":
+            # Revisar si se encuentra la borde izquierdo del tablero
+            if shipsPlayer2[currentShipKey]["position"][2][0] == matrixPlayer2[shipsPlayer2[currentShipKey]["position"][0][1]][0]:
+              shipsPlayer2[currentShipKey]["direction"] = "Right"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoRight
+              newPosition[0][0] -= 2
+              newPosition[2][0] += 2
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoRight)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoRight2)
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoRight3)
+            # Si no tiene ninguna limitación
+            else:  
+              newPosition[0][0] -= 1 # trasero x-1
+              newPosition[1][0] -= 1 # medio x-1
+              newPosition[2][0] -= 1 # frente x-1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoLeft)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoLeft2)
+              shipsPlayer2[currentShipKey]["position"][2] = newPosition[2]
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoLeft3)
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]+1].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Right"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoRight
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""
+            
+          ##Revisión de avance, abajo##
+          elif shipsPlayer2[currentShipKey]["direction"] == "Down":
+            # Revisar si se encuentra al borde superior del tablero
+            if shipsPlayer2[currentShipKey]["position"][2][1] == matrixPlayer2[-1][-1]: #revisa si se encuentra en el borde derecho del tablero
+              shipsPlayer2[currentShipKey]["direction"] = "Up"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoUp
+              newPosition[0][1] += 2
+              newPosition[2][1] -= 2
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoUp)
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoUp2)
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoUp3)
+            # Si no tiene ninguna limitación
+            else:  
+              newPosition[0][1] += 1 # y+1
+              newPosition[1][1] += 1 # y+1
+              newPosition[2][1] += 1 # y+1
+              shipsPlayer2[currentShipKey]["position"][0] = newPosition[0]
+              buttonsMatrixPlayer2[newPosition[2][1]][newPosition[2][0]].configure(image=acorazadoDown3)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[1][1]][newPosition[1][0]].configure(image=acorazadoDown2)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[0][1]][newPosition[0][0]].configure(image=acorazadoDown)
+              shipsPlayer2[currentShipKey]["position"][1] = newPosition[1]
+              buttonsMatrixPlayer2[newPosition[0][1]-1][newPosition[0][0]].configure(image="")
+            # Revisa sí el barco puede avanzar uno o dos espacios sin chocar
+            """elif duplicatePosition(shipsPlayer2[currentShipKey]["position"]):
+              shipsPlayer2[currentShipKey]["direction"] = "Up"
+              shipsPlayer2[currentShipKey]["image"] = acorazadoUp
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image="")
+              buttonsMatrixPlayer2[newPosition[1]][newPosition[0]].configure(image=shipsPlayer2[currentShipKey]["image"])"""       
+    currentShipIndex2 += 1 
+    element += 1
     
 # Colocar las naves
 def actionPlayer1(x,y):
@@ -741,41 +1159,43 @@ def actionPlayer1(x,y):
           onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
         try:
-          buttonsMatrixPlayer1[y-1][x]
-        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
-          print("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer1[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer1[y][x].configure(image=cruceroUp)
-          buttonsMatrixPlayer1[y-1][x].configure(image=cruceroUp2)
-          position = [[x,y],[x,y-1]]
-          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex1 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 2:
-        try:
-          buttonsMatrixPlayer1[y][x-1]
+          buttonsMatrixPlayer1[y-11][x]
+          if buttonsMatrixPlayer1[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer1[y][x].configure(image=cruceroUp)
+            buttonsMatrixPlayer1[y-1][x].configure(image=cruceroUp2)
+            position = [[x,y],[x,y-1]]
+            shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex1 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
         except IndexError:
           messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer1[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer1[y][x-1].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer1[y][x].configure(image=cruceroLeft)
-          buttonsMatrixPlayer1[y][x-1].configure(image=cruceroLeft2)
-          position = [[x,y],[x-1,y]]
-          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex1 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
+        
+      elif rotate == 2:
+        try:
+          buttonsMatrixPlayer1[y][x-11]
+          if buttonsMatrixPlayer1[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer1[y][x-1].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer1[y][x].configure(image=cruceroLeft)
+            buttonsMatrixPlayer1[y][x-1].configure(image=cruceroLeft2)
+            position = [[x,y],[x-1,y]]
+            shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex1 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        
       elif rotate == 3:
         try:
           buttonsMatrixPlayer1[y+1][x]
-        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
-          print("Advertencia", "El barco no cabe ahí")
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
@@ -813,11 +1233,11 @@ def actionPlayer1(x,y):
           onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
         try:
-          buttonsMatrixPlayer1[y-1][x] 
+          buttonsMatrixPlayer1[y-11][x] 
         except IndexError:
           messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         try:
-          buttonsMatrixPlayer1[y-2][x]
+          buttonsMatrixPlayer1[y-12][x]
         except IndexError:
           messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
@@ -836,11 +1256,11 @@ def actionPlayer1(x,y):
           onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
         try:
-          buttonsMatrixPlayer1[y][x-2] 
+          buttonsMatrixPlayer1[y][x-11] 
         except IndexError:
           messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         try:
-          buttonsMatrixPlayer1[y][x-2]
+          buttonsMatrixPlayer1[y][x-12]
         except IndexError:
           messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
@@ -900,202 +1320,201 @@ def actionPlayer2(x,y):
   position = [x,y]
   currentShipKey = shipKeys2[currentShipIndex2] # Posición actual de la nave en el diccionario
   print (f"x={x},y={y}")
-  if totalShipsPlayer2 <= 12:  
-    if shipType == 1: #destructor
-      if rotate == 0:
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 1:
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 2:
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 3:
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-    elif shipType == 2: #crucero
-      if rotate == 0:
-        try:
-          buttonsMatrixPlayer2[y][x+1]
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y][x+1].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=cruceroRight)
-          buttonsMatrixPlayer2[y][x+1].configure(image=cruceroRight2)
-          position = [[x,y],[x+1,y]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 1:
-        try:
-          buttonsMatrixPlayer2[y-1][x]
-        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
-          print("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=cruceroUp)
-          buttonsMatrixPlayer2[y-1][x].configure(image=cruceroUp2)
-          position = [[x,y],[x,y-1]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 2:
-        try:
-          buttonsMatrixPlayer2[y][x-1]
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y][x-1].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=cruceroLeft)
-          buttonsMatrixPlayer2[y][x-1].configure(image=cruceroLeft2)
-          position = [[x,y],[x-1,y]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 3:
-        try:
-          buttonsMatrixPlayer2[y+1][x]
-        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
-          print("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=cruceroDown)
-          buttonsMatrixPlayer2[y+1][x].configure(image=cruceroDown2)
-          position = [[x,y],[x,y+1]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-    elif shipType == 3: #acorazado
-      if rotate == 0:
-        try:
-          buttonsMatrixPlayer2[y][x+1] 
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        try:
-          buttonsMatrixPlayer2[y][x+2]
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y][x+1].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y][x+2].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=acorazadoRight)
-          buttonsMatrixPlayer2[y][x+1].configure(image=acorazadoRight2)
-          buttonsMatrixPlayer2[y][x+2].configure(image=acorazadoRight3)
-          position = [[x,y],[x+1,y],[x+2,y]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 1:
-        try:
-          buttonsMatrixPlayer2[y-1][x] 
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        try:
-          buttonsMatrixPlayer2[y-2][x]
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y+2][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=acorazadoUp)
-          buttonsMatrixPlayer2[y-1][x].configure(image=acorazadoUp2)
-          buttonsMatrixPlayer2[y-2][x].configure(image=acorazadoUp3)
-          position = [[x,y],[x,y-1],[x,y-2]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 2:
-        try:
-          buttonsMatrixPlayer2[y][x-2] 
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        try:
-          buttonsMatrixPlayer2[y][x-2]
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y][x-1].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y][x-2].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=acorazadoLeft)
-          buttonsMatrixPlayer2[y][x-1].configure(image=acorazadoLeft2)
-          buttonsMatrixPlayer2[y][x-2].configure(image=acorazadoLeft3)
-          position = [[x,y],[x-1,y],[x-2,y]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
-      elif rotate == 3:
-        try:
-          buttonsMatrixPlayer2[y+1][x] 
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        try:
-          buttonsMatrixPlayer2[y+2][x]
-        except IndexError:
-          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
-        if buttonsMatrixPlayer2[y][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        elif buttonsMatrixPlayer2[y+2][x].cget("image") != "":
-          messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
-        else:
-          buttonsMatrixPlayer2[y][x].configure(image=acorazadoDown)
-          buttonsMatrixPlayer2[y+1][x].configure(image=acorazadoDown2)
-          buttonsMatrixPlayer2[y+2][x].configure(image=acorazadoDown3)
-          position = [[x,y],[x,y+1],[x,y+2]]
-          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-          currentShipIndex2 += 1
-          onClickTrue() # Para volver a habilitar la selección de barcos
+  if totalShipsPlayer1 <= 12:
+    if totalShipsPlayer2 <= 12:  
+      if shipType == 1: #destructor
+        if rotate == 0:
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 1:
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 2:
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 3:
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+      elif shipType == 2: #crucero
+        if rotate == 0:
+          try:
+            buttonsMatrixPlayer2[y][x+1]
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y][x+1].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=cruceroRight)
+            buttonsMatrixPlayer2[y][x+1].configure(image=cruceroRight2)
+            position = [[x,y],[x+1,y]]
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 1:
+          try:
+            buttonsMatrixPlayer2[y-1][x]
+          except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
+            print("Advertencia", "El barco no cabe ahí")
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=cruceroUp)
+            buttonsMatrixPlayer2[y-1][x].configure(image=cruceroUp2)
+            position = [[x,y],[x,y-1]]
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 2:
+          try:
+            buttonsMatrixPlayer2[y][x-1]
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y][x-1].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=cruceroLeft)
+            buttonsMatrixPlayer2[y][x-1].configure(image=cruceroLeft2)
+            position = [[x,y],[x-1,y]]
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 3:
+          try:
+            buttonsMatrixPlayer2[y+1][x]
+          except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
+            print("Advertencia", "El barco no cabe ahí")
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=cruceroDown)
+            buttonsMatrixPlayer2[y+1][x].configure(image=cruceroDown2)
+            position = [[x,y],[x,y+1]]
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+      elif shipType == 3: #acorazado
+        if rotate == 0: #derecha
+          try:
+            buttonsMatrixPlayer2[y][x+1] 
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+          try:
+            buttonsMatrixPlayer2[y][x+2]
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y][x+1].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y][x+2].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=acorazadoRight)
+            buttonsMatrixPlayer2[y][x+1].configure(image=acorazadoRight2)
+            buttonsMatrixPlayer2[y][x+2].configure(image=acorazadoRight3)
+            position = [[x,y],[x+1,y],[x+2,y]]
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+        elif rotate == 1:#arriba
+          try:
+            buttonsMatrixPlayer2[y-11][x]
+            buttonsMatrixPlayer2[y-12][x]
+            if buttonsMatrixPlayer2[y][x].cget("image") != "":
+              messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+            elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
+              messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+            elif buttonsMatrixPlayer2[y+2][x].cget("image") != "":
+              messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+            else:
+              buttonsMatrixPlayer2[y][x].configure(image=acorazadoUp)
+              buttonsMatrixPlayer2[y-1][x].configure(image=acorazadoUp2)
+              buttonsMatrixPlayer2[y-2][x].configure(image=acorazadoUp3)
+              position = [[x,y],[x,y-1],[x,y-2]]
+              shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+              currentShipIndex2 += 1
+              onClickTrue() # Para volver a habilitar la selección de barcos
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+
+        elif rotate == 2:#izquierda
+          try:
+            buttonsMatrixPlayer2[y][x-11]
+            buttonsMatrixPlayer2[y][x-12]
+            if buttonsMatrixPlayer2[y][x].cget("image") != "":
+              messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+            elif buttonsMatrixPlayer2[y][x-1].cget("image") != "":
+              messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+            elif buttonsMatrixPlayer2[y][x-2].cget("image") != "":
+              messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+            else:
+              buttonsMatrixPlayer2[y][x].configure(image=acorazadoLeft)
+              buttonsMatrixPlayer2[y][x-1].configure(image=acorazadoLeft2)
+              buttonsMatrixPlayer2[y][x-2].configure(image=acorazadoLeft3)
+              position = [[x,y],[x-1,y],[x-2,y]]
+              shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+              currentShipIndex2 += 1
+              onClickTrue() # Para volver a habilitar la selección de barcos
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+
+        elif rotate == 3:#abajo
+          try:
+            buttonsMatrixPlayer2[y+1][x] 
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+          try:
+            buttonsMatrixPlayer2[y+2][x]
+          except IndexError:
+            messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+          if buttonsMatrixPlayer2[y][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          elif buttonsMatrixPlayer2[y+2][x].cget("image") != "":
+            messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
+          else:
+            buttonsMatrixPlayer2[y][x].configure(image=acorazadoDown)
+            buttonsMatrixPlayer2[y+1][x].configure(image=acorazadoDown2)
+            buttonsMatrixPlayer2[y+2][x].configure(image=acorazadoDown3)
+            position = [[x,y],[x,y+1],[x,y+2]]
+            shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+            currentShipIndex2 += 1
+            onClickTrue() # Para volver a habilitar la selección de barcos
+      else:
+        messagebox.showwarning("Advertencia", "Primero debe de seleccionar un tipo de nave")
     else:
-      messagebox.showwarning("Advertencia", "Primero debe de seleccionar un tipo de nave")
+      messagebox.showinfo("Advertencia","El jugador 2 ya colocó todas sus naves")
   else:
-    messagebox.showinfo("Advertencia","El jugador 2 ya colocó todas sus naves")
+    messagebox.showwarning("Advertencia", "El jugador 1 todavía no termina de colocar sus naves")
 
 # Generación del tablero
 def board(x: int, y: int) -> Tk:
@@ -1130,7 +1549,7 @@ def board(x: int, y: int) -> Tk:
   for buttonsRow in buttonsMatrixPlayer1:
     posx = startX1
     for btn in buttonsRow:
-        btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth) #//falta acomodar las matrices en función de la cantidad de botones
+        btn.place(x=posx, y=posy, height = buttonHeight, width = buttonWidth)
         btn.configure(bg="#47A9CC")
         posx += buttonWidth
     posy += buttonHeight
@@ -1176,11 +1595,3 @@ on_press_key("r", rotateShip)
 game.bind("<KeyPress-t>", lambda event : shipMovement(event))
 
 game.mainloop()
-
-# 1 Una función para que se bloquee el tablero del jugador 2 hasta que el jugador 1 termine de colocar sus naves
-# 2 Una función para que se bloquee el tablero del jugador 1 cuando termine de colocar sus piezas y permita usar el tablero del jugador 2
-# 3 Modificar las funciones actuales para que puedan alterar el tablero del jugador 2 y modificar las entradas del diccionario
-# 4 Hacer la función para el movimiento de las naves.
-# 4.1 Tiene que revisar si la nave se puede mover.
-# 4.2 Revisar si la nave llegó a un borde del tablero y debe de hacer que se devuelva.
-# 4.3 Va a revisar la posición de cada nave haciendo el recorrido por cada diccionario y revisando la llave: "position"
