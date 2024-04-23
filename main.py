@@ -3,8 +3,7 @@ from keyboard import *
 from boardDimensions import * #llamada al archivo boardDimensions
 from PIL import ImageTk, Image
 from tkinter.font import *
-from Menu import *
-from time import *
+
 
 keyS = True
 buttonsMatrixPlayer1= []
@@ -65,7 +64,7 @@ shipKeys1 = list(shipsPlayer1.keys())
 shipKeys2 = list(shipsPlayer2.keys())
 
 ##Variables de los barcos##
-shipType = 1 #maneja el tipo de nave
+shipType = 0 #maneja el tipo de nave
 def shipsImages ():
   global destructorRight, destructorUp, destructorLeft, destructorDown
   global cruceroRight, cruceroRight2, cruceroUp, cruceroUp2, cruceroLeft, cruceroLeft2, cruceroDown, cruceroDown2
@@ -157,8 +156,9 @@ def shipsImages ():
   acorazadoDown3 = ImageTk.PhotoImage(acorazadoDown3)
   
 def onClickTrue(): # Permite que la Q, W y E puedan volver a ser usadas para seleccionar otro barco, pero solo despues de que el barco anterior sea colocado.
-  global  keyQ, keyW, keyE
-  keyQ = keyW = keyE = True 
+  global  keyQ, keyW, keyE, shipType
+  keyQ = keyW = keyE = True
+  shipType = 0
 def onClickFalse(): # Desactiva las teclas Q, W y R para que no puedan volver a ser usadas hasta que se coloque el barco seleccionado
   global  keyQ, keyW, keyE
   keyQ = keyW = keyE = False
@@ -880,6 +880,8 @@ def actionPlayer1(x,y):
           shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
           currentShipIndex1 += 1
           onClickTrue() # Para volver a habilitar la selección de barcos
+    else:
+      messagebox.showwarning("Advertencia", "Primero debe de seleccionar un tipo de nave")
   else:
     messagebox.showinfo("Advertencia","El jugador 1 ya colocó todas sus naves")
   # Asignar las cordenadas iniciales al barco
@@ -1090,6 +1092,8 @@ def actionPlayer2(x,y):
           shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
           currentShipIndex2 += 1
           onClickTrue() # Para volver a habilitar la selección de barcos
+    else:
+      messagebox.showwarning("Advertencia", "Primero debe de seleccionar un tipo de nave")
   else:
     messagebox.showinfo("Advertencia","El jugador 2 ya colocó todas sus naves")
 
