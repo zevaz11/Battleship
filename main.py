@@ -3,6 +3,8 @@ from keyboard import *
 from boardDimensions import * #llamada al archivo boardDimensions
 from PIL import ImageTk, Image
 from tkinter.font import *
+from Menu import *
+from time import *
 
 keyS = True
 buttonsMatrixPlayer1= []
@@ -544,7 +546,6 @@ def shipMovement(event):
               shipsPlayer1[currentShipKey]["image"] = cruceroUp
               buttonsMatrixPlayer1[newPosition[1]][newPosition[0]].configure(image="")
               buttonsMatrixPlayer1[newPosition[1]][newPosition[0]].configure(image=shipsPlayer1[currentShipKey]["image"])"""
-
         # Acorazado
         elif shipsPlayer1[currentShipKey]["type"] == "Acorazado":
           ##Revisión de avance, derecha##
@@ -680,7 +681,7 @@ def actionPlayer1(x,y):
       x (int): posición donde se hizo click de la coordenada x
       y (int): posición donde se hizo click de la coordenada y
   """
-  global buttonsMatrixPlayer1
+  global buttonsMatrixPlayer1, matrixPlayer1
   global shipType
   global shipCount
   global shipsPlayer1, currentShipIndex1, shipKeys1
@@ -694,23 +695,39 @@ def actionPlayer1(x,y):
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer1[y][x].configure(image=shipsPlayer1[currentShipKey]["image"])
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer1[y][x].configure(image=shipsPlayer1[currentShipKey]["image"])
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer1[y][x].configure(image=shipsPlayer1[currentShipKey]["image"])
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 3:
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer1[y][x].configure(image=shipsPlayer1[currentShipKey]["image"])
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
     elif shipType == 2: #crucero
       if rotate == 0:
+        try:
+          buttonsMatrixPlayer1[y][x+1]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y][x+1].cget("image") != "":
@@ -719,7 +736,14 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y][x].configure(image=cruceroRight)
           buttonsMatrixPlayer1[y][x+1].configure(image=cruceroRight2)
           position = [[x,y],[x+1,y]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
+        try:
+          buttonsMatrixPlayer1[y-1][x]
+        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
+          print("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
@@ -728,7 +752,14 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y][x].configure(image=cruceroUp)
           buttonsMatrixPlayer1[y-1][x].configure(image=cruceroUp2)
           position = [[x,y],[x,y-1]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
+        try:
+          buttonsMatrixPlayer1[y][x-1]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y][x-1].cget("image") != "":
@@ -737,7 +768,14 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y][x].configure(image=cruceroLeft)
           buttonsMatrixPlayer1[y][x-1].configure(image=cruceroLeft2)
           position = [[x,y],[x-1,y]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 3:
+        try:
+          buttonsMatrixPlayer1[y+1][x]
+        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
+          print("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
@@ -746,8 +784,19 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y][x].configure(image=cruceroDown)
           buttonsMatrixPlayer1[y+1][x].configure(image=cruceroDown2)
           position = [[x,y],[x,y+1]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
     elif shipType == 3: #acorazado
       if rotate == 0:
+        try:
+          buttonsMatrixPlayer1[y][x+1] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer1[y][x+2]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y][x+1].cget("image") != "":
@@ -759,7 +808,18 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y][x+1].configure(image=acorazadoRight2)
           buttonsMatrixPlayer1[y][x+2].configure(image=acorazadoRight3)
           position = [[x,y],[x+1,y],[x+2,y]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
+        try:
+          buttonsMatrixPlayer1[y-1][x] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer1[y-2][x]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
@@ -771,7 +831,18 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y-1][x].configure(image=acorazadoUp2)
           buttonsMatrixPlayer1[y-2][x].configure(image=acorazadoUp3)
           position = [[x,y],[x,y-1],[x,y-2]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
+        try:
+          buttonsMatrixPlayer1[y][x-2] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer1[y][x-2]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y][x-1].cget("image") != "":
@@ -783,7 +854,18 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y][x-1].configure(image=acorazadoLeft2)
           buttonsMatrixPlayer1[y][x-2].configure(image=acorazadoLeft3)
           position = [[x,y],[x-1,y],[x-2,y]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 3:
+        try:
+          buttonsMatrixPlayer1[y+1][x] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer1[y+2][x]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer1[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer1[y+1][x].cget("image") != "":
@@ -795,12 +877,12 @@ def actionPlayer1(x,y):
           buttonsMatrixPlayer1[y+1][x].configure(image=acorazadoDown2)
           buttonsMatrixPlayer1[y+2][x].configure(image=acorazadoDown3)
           position = [[x,y],[x,y+1],[x,y+2]]
+          shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex1 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
   else:
     messagebox.showinfo("Advertencia","El jugador 1 ya colocó todas sus naves")
   # Asignar las cordenadas iniciales al barco
-  shipsPlayer1[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-  currentShipIndex1 += 1
-  onClickTrue() # Para volver a habilitar la selección de barcos
   
 def actionPlayer2(x,y):
   """La función actionPlayer2, recibe la posición donde se van a colocar las naves del segundo jugador y devuelve una imagen para dichas naves
@@ -809,7 +891,7 @@ def actionPlayer2(x,y):
       x (int): posición donde se hizo click de la coordenada x
       y (int): posición donde se hizo click de la coordenada y
   """
-  global buttonsMatrixPlayer2
+  global buttonsMatrixPlayer2, matrixPlayer2
   global shipType
   global shipCount
   global shipsPlayer2, currentShipIndex2, shipKeys2
@@ -823,23 +905,39 @@ def actionPlayer2(x,y):
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 3:
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         else:
           buttonsMatrixPlayer2[y][x].configure(image=shipsPlayer2[currentShipKey]["image"])
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
     elif shipType == 2: #crucero
       if rotate == 0:
+        try:
+          buttonsMatrixPlayer2[y][x+1]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y][x+1].cget("image") != "":
@@ -848,7 +946,14 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y][x].configure(image=cruceroRight)
           buttonsMatrixPlayer2[y][x+1].configure(image=cruceroRight2)
           position = [[x,y],[x+1,y]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
+        try:
+          buttonsMatrixPlayer2[y-1][x]
+        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
+          print("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
@@ -857,7 +962,14 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y][x].configure(image=cruceroUp)
           buttonsMatrixPlayer2[y-1][x].configure(image=cruceroUp2)
           position = [[x,y],[x,y-1]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
+        try:
+          buttonsMatrixPlayer2[y][x-1]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y][x-1].cget("image") != "":
@@ -866,7 +978,14 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y][x].configure(image=cruceroLeft)
           buttonsMatrixPlayer2[y][x-1].configure(image=cruceroLeft2)
           position = [[x,y],[x-1,y]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 3:
+        try:
+          buttonsMatrixPlayer2[y+1][x]
+        except messagebox.showwarning("Advertencia", "El barco no cabe ahí"):
+          print("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
@@ -875,8 +994,19 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y][x].configure(image=cruceroDown)
           buttonsMatrixPlayer2[y+1][x].configure(image=cruceroDown2)
           position = [[x,y],[x,y+1]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
     elif shipType == 3: #acorazado
       if rotate == 0:
+        try:
+          buttonsMatrixPlayer2[y][x+1] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer2[y][x+2]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y][x+1].cget("image") != "":
@@ -888,7 +1018,18 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y][x+1].configure(image=acorazadoRight2)
           buttonsMatrixPlayer2[y][x+2].configure(image=acorazadoRight3)
           position = [[x,y],[x+1,y],[x+2,y]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 1:
+        try:
+          buttonsMatrixPlayer2[y-1][x] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer2[y-2][x]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
@@ -900,7 +1041,18 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y-1][x].configure(image=acorazadoUp2)
           buttonsMatrixPlayer2[y-2][x].configure(image=acorazadoUp3)
           position = [[x,y],[x,y-1],[x,y-2]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 2:
+        try:
+          buttonsMatrixPlayer2[y][x-2] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer2[y][x-2]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y][x-1].cget("image") != "":
@@ -912,7 +1064,18 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y][x-1].configure(image=acorazadoLeft2)
           buttonsMatrixPlayer2[y][x-2].configure(image=acorazadoLeft3)
           position = [[x,y],[x-1,y],[x-2,y]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
       elif rotate == 3:
+        try:
+          buttonsMatrixPlayer2[y+1][x] 
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
+        try:
+          buttonsMatrixPlayer2[y+2][x]
+        except IndexError:
+          messagebox.showwarning("Advertencia", "El barco no cabe ahí")
         if buttonsMatrixPlayer2[y][x].cget("image") != "":
           messagebox.showwarning("Advertencia", "Ya hay otro barco en ese sitio")
         elif buttonsMatrixPlayer2[y+1][x].cget("image") != "":
@@ -924,12 +1087,11 @@ def actionPlayer2(x,y):
           buttonsMatrixPlayer2[y+1][x].configure(image=acorazadoDown2)
           buttonsMatrixPlayer2[y+2][x].configure(image=acorazadoDown3)
           position = [[x,y],[x,y+1],[x,y+2]]
+          shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
+          currentShipIndex2 += 1
+          onClickTrue() # Para volver a habilitar la selección de barcos
   else:
     messagebox.showinfo("Advertencia","El jugador 2 ya colocó todas sus naves")
-  # Asignar las cordenadas iniciales al barco
-  shipsPlayer2[currentShipKey]["position"] = position # Se le asigna su posición en el tablero
-  currentShipIndex2 += 1
-  onClickTrue() # Para volver a habilitar la selección de barcos
 
 # Generación del tablero
 def board(x: int, y: int) -> Tk:
@@ -983,8 +1145,8 @@ def textOutput(game,family,size,color):
   global windowHeight, windowWidth
   global actualText
   # Crear un Label para mostrar el texto
-  labelWidth = int((windowWidth // 16)) # X
-  labelHeight = int((windowHeight // 60)) # Y
+  labelWidth = int((windowWidth )) # X
+  labelHeight = int((windowHeight)) # Y
   center = (windowWidth - labelWidth) // 4.2
   label = Label(game, text=actualText, bg="lightblue", fg="black", width=labelWidth, height=labelHeight, borderwidth=10, relief="solid")
   def updateFont(family, size, color):
@@ -998,7 +1160,7 @@ def textOutput(game,family,size,color):
   label.place(x=center,y=20)
 
 game = board(boardColumns(),boardRows())
-textLabel = textOutput(game,family,size,color)
+#textLabel = textOutput(game,family,size,color)
 
 ##KeyBinds##
 game.bind("<KeyPress-q>", lambda event : selectShip1(event))
