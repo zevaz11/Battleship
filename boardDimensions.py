@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 
@@ -18,14 +17,9 @@ def boardRows ():
   scaleY = valueY
   return scaleY
 
-def dimensionsEntries(entrada1:tk.Entry,entrada2:tk.Entry)->bool:
+def dimensionsEntries():
   """ La funcion DimensionsEntries, almacena y ejecuta el codigo necesario para mostrar los inputs con el tamaño del tablero
-
-  Returns:
-        bool: Retorna True o False para verificar si se aceptaron las dimensiones o hubo algún error
   """
-  completado = True
-
   def checkEntry(text):
     """ La función CheckEntry, revisa que el texto escrito en los inputs sean caracteres validos.
     Args:
@@ -39,25 +33,19 @@ def dimensionsEntries(entrada1:tk.Entry,entrada2:tk.Entry)->bool:
         messagebox.showerror("Error", "Solo se pueden colocar numeros enteros")
         return False
 
-  def checkValues(entryX:tk.Entry,entryY:tk.Entry):
-    """La función checkValues, revisa los datos ingresados y se asegura de que cumplan con todos los requisitos
-
-    Args:
-        entryX (tk.Entry): número de columnas ingresadas por el usuario
-        entryY (tk.Entry): número de filas ingresadas por el usuario
+  def checkValues():
+    """ La función checkValues, revisa los datos ingresados y se asegura de que cumplan con todos los requisitos
     """
     intX = entryX.get()
     intY = entryY.get()
-    nonlocal completado
     if intX == "" or intY == "": #Revisa si alguno de los campos está vacio
       messagebox.showerror("Error", "Uno de los campos está vacio.")
-      completado = False
+    
     else:
       global valueX
       global valueY
       valueX = int(intX)
       valueY = int(intY)
-      completado = False
       if valueX < 20: #revisa que el valor de las columnas no sea menor a 20
         messagebox.showerror("Error", "El numero de columnas no puede ser menor a 20")
       elif valueY < 10: #revisa que el valor de las filas no sea menor a 10
@@ -68,29 +56,27 @@ def dimensionsEntries(entrada1:tk.Entry,entrada2:tk.Entry)->bool:
         messagebox.showerror("Error", "El numero de filas no puede ser impar")
       else:
         messagebox.showinfo("Dimensiones", f"Las columnas miden {valueX} y las filas miden {valueY}")
-        completado = True
-        #inputWindow.destroy()
-  
-  checkValues(entrada1,entrada2)
-
-  return completado
+        inputWindow.destroy()
 
   ##Ventana para el ingreso de los datos##
-  #inputWindow = Tk()
-  #inputWindow.title("Board Dimensions")
-  #inputWindow.state("zoomed")
+  inputWindow = Tk()
+  inputWindow.title("Board Dimensions")
 
   #Entry para las columnas
-  #checked = inputWindow.register(checkEntry)
-  #entryX = Entry(inputWindow, width="50", validate="key", validatecommand=(checked, "%P"))
-  #entryX.pack(pady=10)
+  textX = Label(inputWindow,text="Columnas:", background="gray14", fg="cyan", font=('Helvetica bold', 20))
+  textX.pack()
+  checked = inputWindow.register(checkEntry)
+  entryX = Entry(inputWindow, width="50", validate="key", validatecommand=(checked, "%P"))
+  entryX.pack(pady=10)
 
   #Entry para las filas
-  #checked = inputWindow.register(checkEntry)
-  #entryY = Entry(inputWindow, width="50", validate="key", validatecommand=(checked, "%P"))
-  #entryY.pack(pady=10)
+  textY = Label(inputWindow,text="Filas:", background="gray14", fg="cyan", font=('Helvetica bold', 20))
+  textY.pack()
+  checked = inputWindow.register(checkEntry)
+  entryY = Entry(inputWindow, width="50", validate="key", validatecommand=(checked, "%P"))
+  entryY.pack(pady=10)
 
   #Boton para comprobar los valores.
-  #continueButton = Button(inputWindow, text="Continuar", command=checkValues )
-  #continueButton.pack(padx=5,pady=5)
-  #inputWindow.mainloop()
+  continueButton = Button(inputWindow, text="Continuar", command=checkValues)
+  continueButton.pack(padx=5,pady=5)
+  inputWindow.mainloop()
